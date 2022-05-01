@@ -4,9 +4,7 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Installation Guide
 
-> Pull the project using the GitHub repository
-
-https://github.com/smartphpcoder/contactapp
+> Clone the project using the SSH or HTTPS
 
 > Run composer install to install all the dependencies
 
