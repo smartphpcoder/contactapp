@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Scopes\ContactFilterScope;
-use App\Scopes\ContactSearchScope;
+use App\Scopes\FilterSearchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Contact extends Model
 {
-    use HasFactory;
+    use HasFactory, FilterSearchScope;
 
     protected $fillable = ['first_name', 'last_name', 'phone', 'email', 'address', 'company_id'];
 
@@ -33,13 +32,5 @@ class Contact extends Model
         return $query->orderBy('id', 'desc');
     }
 
-    /**
-     * add global scope to the model
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::addGlobalScope(new ContactFilterScope());
-        static::addGlobalScope(new ContactSearchScope());
-    }
+
 }
