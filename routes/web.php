@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,3 +28,7 @@ Route::controller(ContactController::class)->prefix('contacts')->group( function
     Route::get('/{contact:id}/edit', 'edit')->whereNumber('id')->name('contacts.edit');
     Route::delete('/{contact:id}', 'destroy')->whereNumber('id')->name('contacts.destroy');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
