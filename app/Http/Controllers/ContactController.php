@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Contact\StoreContactRequest;
+use App\Http\Requests\Contact\UpdateContactRequest;
 use App\Models\Company;
 use App\Models\Contact;
 use Illuminate\Http\RedirectResponse;
@@ -35,18 +37,11 @@ class ContactController extends Controller
 
 
     /**
-     * @param Request $request
+     * @param StoreContactRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreContactRequest $request): RedirectResponse
     {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'address' => 'required',
-            'company_id' => 'required|exists:companies,id'
-        ]);
 
         Contact::create($request->all());
 
@@ -65,20 +60,12 @@ class ContactController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param UpdateContactRequest $request
      * @param Contact $contact
      * @return RedirectResponse
      */
-    public function update(Request $request, Contact $contact): RedirectResponse
+    public function update(UpdateContactRequest $request, Contact $contact): RedirectResponse
     {
-        $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'address' => 'required',
-            'company_id' => 'required|exists:companies,id'
-        ]);
-
         $contact->update($request->all());
 
         return redirect()->route('contacts.index')->with('message', 'Contact has been updated successfully!');

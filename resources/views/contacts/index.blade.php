@@ -48,6 +48,7 @@
                                                 <a href="{{ route('contacts.destroy', $contact->id) }}" class="btn-delete btn btn-sm btn-circle btn-outline-danger" title="Delete"><i class="fa fa-times"></i></a>
                                             </td>
                                         </tr>
+
                                     @endforeach
                                     <form action="" id="form-delete" method="POST" style="display: none">
                                         @csrf
