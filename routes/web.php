@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(ContactController::class)->prefix('contacts')->group( function () {
+Route::middleware(['auth', 'verified'])->controller(ContactController::class)->prefix('contacts')->group( function () {
     Route::get('/', 'index')->name('contacts.index');
     Route::post('/', 'store')->name('contacts.store');
     Route::get('/create', 'create')->name('contacts.create');
@@ -30,6 +30,6 @@ Route::controller(ContactController::class)->prefix('contacts')->group( function
     Route::delete('/{contact:id}', 'destroy')->whereNumber('id')->name('contacts.destroy');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');

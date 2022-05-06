@@ -32,5 +32,13 @@ class Contact extends Model
         return $query->orderBy('id', 'desc');
     }
 
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
 }

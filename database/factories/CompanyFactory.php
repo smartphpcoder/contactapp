@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Company>
+ * @extends Factory
  */
 class CompanyFactory extends Factory
 {
@@ -20,7 +21,8 @@ class CompanyFactory extends Factory
             'name' => $this->faker->company,
             'email' => $this->faker->email,
             'address' => $this->faker->address,
-            'website' => $this->faker->domainName
+            'website' => $this->faker->domainName,
+            'user_id' => User::pluck('id')->random(),
         ];
     }
 }
