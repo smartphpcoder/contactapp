@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Contact\StoreContactRequest;
 use App\Http\Requests\Contact\UpdateContactRequest;
-use App\Models\Company;
 use App\Models\Contact;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ContactController extends Controller
@@ -17,9 +15,11 @@ class ContactController extends Controller
      */
     public function index(): View
     {
-        $contacts = Contact::latestFirst()->paginate(10);
+        $user = auth()->user();
 
-        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $contacts = $user->contacts()->latestFirst()->paginate(10);
+
+        $companies = $user->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
 
         return view("contacts.index", compact('contacts', 'companies'));
     }
@@ -30,7 +30,7 @@ class ContactController extends Controller
     public function create(): View
     {
         $contact = new Contact();
-        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
 
         return view("contacts.create", compact('companies', 'contact'));
     }
@@ -43,7 +43,7 @@ class ContactController extends Controller
     public function store(StoreContactRequest $request): RedirectResponse
     {
 
-        Contact::create($request->all());
+        $request->user()->contacts()->create($request->all());
 
         return redirect()->route('contacts.index')->with('message', 'Contact has been added successfully!');
     }
@@ -54,7 +54,7 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact): View
     {
-        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
 
         return view("contacts.edit", compact('companies', 'contact'));
     }
