@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Contact\StoreContactRequest;
 use App\Http\Requests\Contact\UpdateContactRequest;
+use App\Models\Company;
 use App\Models\Contact;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -15,11 +16,9 @@ class ContactController extends Controller
      */
     public function index(): View
     {
-        $user = auth()->user();
+        $contacts = auth()->user()->contacts()->latestFirst()->paginate(10);
 
-        $contacts = $user->contacts()->latestFirst()->paginate(10);
-
-        $companies = $user->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = Company::userCompanies();
 
         return view("contacts.index", compact('contacts', 'companies'));
     }
@@ -30,7 +29,7 @@ class ContactController extends Controller
     public function create(): View
     {
         $contact = new Contact();
-        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = Company::userCompanies();
 
         return view("contacts.create", compact('companies', 'contact'));
     }
@@ -54,7 +53,7 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact): View
     {
-        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = Company::userCompanies();
 
         return view("contacts.edit", compact('companies', 'contact'));
     }

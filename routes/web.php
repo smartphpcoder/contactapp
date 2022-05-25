@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Settings\AccountController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,8 @@ Route::middleware(['auth', 'verified'])->controller(ContactController::class)->p
     Route::get('/{contact:id}/edit', 'edit')->whereNumber('id')->name('contacts.edit');
     Route::delete('/{contact:id}', 'destroy')->whereNumber('id')->name('contacts.destroy');
 });
+
+Route::get('/settings/account', [AccountController::class, 'index']);
 
 Auth::routes(['verify' => true]);
 
